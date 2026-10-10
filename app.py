@@ -44,10 +44,6 @@ def about():
             print("הנתיב לקובץ:", "bugs.txt")
             print("גודל הקובץ:", "bugs.txt".stat().st_size)
 
-        except Exception as error:
-            print("שגיאה בכתיבה:", repr(error))
-            return "שגיאה בשמירת ההודעה. בדוק את ה-Terminal.", 500
-
         return redirect(url_for("about"))
 
     return render_template("about.html")
