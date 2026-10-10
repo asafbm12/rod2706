@@ -17,7 +17,7 @@ def guide():
 def updates():
     return render_template('updates.html')
 
-@app.route('/about')
+@app.route('/about', methods=['POST'])
 def save_bug():
     # 1. קליטת הנתונים שהמשתמש רשם בטופס ה-HTML שלך
     user_name = request.form.get('name')
