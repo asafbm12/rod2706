@@ -18,9 +18,24 @@ def updates():
     return render_template('updates.html')
 
 # 4. ניווט לעמוד אודות וצור קשר
-@app.route('/about')
+@app.route('/about', methods=['GET', 'POST'])
 def about():
+    if request.method == 'POST':
+        user_name = request.form.get('name')
+        user_email = request.form.get('email')
+        user_message = request.form.get('message')
+
+        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        bug_line = f"[{current_time}] שם: {user_name} | מייל: {user_email} | באג: {user_message}\n"
+
+        with open(BUGS_FILE, mode='a', encoding='utf-8') as file:
+            file.write(bug_line)
+
+        # מחזיר תשובת אימות מהירה לדפדפן (סטטוס הצלחה) במקום לרענן את העמוד
+        return jsonify({"status": "success", "message": "הפנייה התקבלה בהצלחה"})
+
     return render_template('about.html')
+
 
 # 5. ניווט לעמוד מדיניות הפרטיות
 @app.route('/privacy')
