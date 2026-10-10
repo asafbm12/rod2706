@@ -34,15 +34,15 @@ def about():
         message = request.form.get("message", "").strip()
 
         try:
-            with open(bugs.txt, "a", encoding="utf-8") as file:
+            with open("bugs.txt", "a", encoding="utf-8") as file:
                 file.write(
                     f"שם: {name} | מייל: {email} | הודעה: {message}\n"
                 )
                 file.flush()
 
             print("נשמר בהצלחה!")
-            print("הנתיב לקובץ:", bugs.txt)
-            print("גודל הקובץ:", bugs.txt.stat().st_size)
+            print("הנתיב לקובץ:", "bugs.txt")
+            print("גודל הקובץ:", "bugs.txt".stat().st_size)
 
         except Exception as error:
             print("שגיאה בכתיבה:", repr(error))
