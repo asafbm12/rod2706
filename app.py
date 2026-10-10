@@ -1,9 +1,11 @@
-from datetime import datetime
+
+from pathlib import Path
 from flask import Flask, render_template, request, send_from_directory, redirect, url_for
 
 app = Flask(__name__)
 
-BUGS_FILE = 'bugs.txt'
+# שמירת bugs.txt באותה תיקייה שבה נמצא app.py
+BUGS_FILE = Path(app.root_path) / 'bugs.txt'
 
 
 @app.route('/')
@@ -24,16 +26,39 @@ def updates():
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     if request.method == 'POST':
-        # קריאת הנתונים מהטופס
-        user_name = request.form.get('name')
-        user_email = request.form.get('email')
-        user_message = request.form.get('message')
+        print("התקבלה בקשת POST!")
 
-        # הנה פקודת הרישום האמיתית לתוך הקובץ bugs.txt:
-        with open('bugs.txt', mode='a', encoding='utf-8') as file:
-            file.write(f"שם: {user_name} | מייל: {user_email} | הודעה: {user_message}\n")
+        # קבלת הנתונים מהטופס
+        user_name = request.form.get('name', '').strip()
+        user_email = request.form.get('email', '').strip()
+        user_message = request.form.get('message', '').strip()
 
-        # רענון ורינדור מחדש של הדף
+        print("שם:", repr(user_name))
+        print("אימייל:", repr(user_email))
+        print("הודעה:", repr(user_message))
+
+        # בדיקה שכל השדות מלאים
+        if not user_name or not user_email or not user_message:
+            print("שגיאה: אחד או יותר מהשדות ריקים")
+            return "נא למלא את כל השדות בטופס", 400
+
+        try:
+            # כתיבת הנתונים לקובץ
+            with open(BUGS_FILE, 'a', encoding='utf-8') as file:
+                file.write(
+                    f"שם: {user_name} | "
+                    f"מייל: {user_email} | "
+                    f"הודעה: {user_message}\n"
+                )
+
+            print("ההודעה נשמרה בהצלחה!")
+            print("מיקום הקובץ:", BUGS_FILE.resolve())
+
+        except OSError as error:
+            print("שגיאה בשמירת הקובץ:", error)
+            return "אירעה שגיאה בשמירת ההודעה", 500
+
+        # חזרה לעמוד אודות לאחר השליחה
         return redirect(url_for('about'))
 
     return render_template('about.html')
@@ -51,3 +76,4 @@ def ads_txt():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
