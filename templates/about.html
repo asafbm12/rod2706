@@ -15,8 +15,6 @@
 </head>
 <body>
 
-<body>
-
     <nav>
         <a href="/">דף הבית והמשחק</a>
         <a href="/guide">מדריך למשתמש</a>
@@ -31,17 +29,36 @@
         <h2>צור קשר / דיווח על באגים</h2>
         <p>נתקלתם בבעיה במשחק? יש לכם הצעה לשיפור או רעיון לפיצ'ר חדש? אשמח מאוד לשמוע מכם! שלחו לי הודעה באמצעות הטופס הבא:</p>
 
-        <form action="#" method="POST">
+        <!-- נתנו לטופס מזהה id ושינינו את ה-action שיפנה לפייתון -->
+        <form id="silentForm" action="/about" method="POST">
             <label>שם מלא:</label>
             <input type="text" name="name" required>
             <label>אימייל לחזרה:</label>
             <input type="email" name="email" required>
             <label>ההודעה שלכם:</label>
             <textarea name="message" rows="5" required></textarea>
-
             <button type="submit">שלח הודעה</button>
         </form>
     </div>
+
+    <!-- קוד ה-JavaScript שמבצע את השליחה השקטה בלי לרענן את הדף -->
+    <script>
+        document.getElementById('silentForm').addEventListener('submit', function(event) {
+            // מונע מהדפדפן לבצע ריענון לעמוד או לעבור דף
+            event.preventDefault();
+
+            // אוסף את הנתונים שהמשתמש הקליד בשדות
+            var formData = new FormData(this);
+
+            // שולח את הנתונים ישירות לפייתון מאחורי הקלעים
+            fetch('/about', {
+                method: 'POST',
+                body: formData
+            });
+
+            // לא ניקינו את השדות ולא הקפצנו הודעה - מבחינת הגולש "לא קרה כלום"
+        });
+    </script>
 
 </body>
 </html>
