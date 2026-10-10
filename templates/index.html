@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המשחק הרשמי - שחקו עכשיו בחינם</title>
+    <meta name="description" content="ברוכים הבאים לאתר הרשמי של המשחק! שחקו עכשיו בדפדפן, שברו שיאים ותהנו מחוויית משחק ייחודית ומאתגרת.">
+
+    <!-- קוד ה-AdSense הראשי שלך (להדביק כאן) -->
+    <!-- <script async src="https://googlesyndication.com" crossorigin="anonymous"></script> -->
+
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; text-align: center; }
+        nav { background: #333; padding: 15px; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .game-area { width: 100%; max-width: 800px; height: 500px; background: #222; color: white; margin: 20px auto; display: flex; justify-content: center; align-items: center; border-radius: 5px; }
+        .ads-container { margin: 20px 0; min-height: 90px; background: #eee; line-height: 90px; color: #666; }
+        footer { background: #333; color: white; padding: 20px; margin-top: 40px; }
+        footer a { color: #aaa; margin: 0 10px; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<body>
+
+    <nav>
+        <a href="/">דף הבית והמשחק</a>
+        <a href="/guide">מדריך למשתמש</a>
+        <a href="/updates">בלוג עדכונים</a>
+        <a href="/about">אודות וצור קשר</a>
+    </nav>
+
+
+
+
+    <div class="container">
+        <h1>ברוכים הבאים למשחק הרשמי!</h1>
+        <p>חוויית משחק ממכרת ומאתגרת ישירות בדפדפן שלכם. נסו להגיע לניקוד הגבוה ביותר!</p>
+
+        <!-- אזור המשחק (כאן תטמיע את קוד ה-JS או ה-Iframe של המשחק שלך) -->
+        <div class="game-area">
+            [כאן יופיע קוד המשחק שלך - למשל תגית CANVAS או IFRAME]
+        </div>
+
+        <!-- מיקום מומלץ לפרסומת אדסנס מתחת למשחק (במרחק בטוח שלא יגרום לקליקים בטעות) -->
+        <div class="ads-container">
+            <!-- פרסומת AdSense מתחת למשחק -->
+            [מקום לפרסומת באנר של AdSense]
+        </div>
+
+        <h2>על המשחק</h2>
+        <p>המשחק פותח במטרה להעניק חוויית משחק מהירה, חכמה ומהנה לכל הגילאים. המשחק מתאים למחשב ולנייד ואינו דורש התקנה.</p>
+    </div>
+
+    <footer>
+        <p>© 2026 כל הזכויות שמורות למפתח המשחק</p>
+        <p>
+            <a href="about.html">אודות</a> |
+            <a href="privacy.html">מדיניות פרטיות</a>
+        </p>
+    </footer>
+
+<!-- באנר הסכמה למדיניות פרטיות ועוגיות -->
+<div id="cookie-banner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 15px; text-align: center; font-size: 14px; z-index: 9999; box-shadow: 0 -2px 10px rgba(0,0,0,0.3); border-top: 3px solid #ffcc00;">
+    <span>אתר זה משתמש בעוגיות לצורך התאמת פרסומות של Google AdSense וחוויית משחק מיטבית. המשך הגלישה מהווה הסכמה לכך.
+        <a href="/privacy" style="color: #ffcc00; text-decoration: underline; margin-right: 5px;">לקריאת מדיניות הפרטיות המלאה</a>
+    </span>
+    <button id="accept-cookies" style="background: #ffcc00; color: #000; border: none; padding: 6px 15px; margin-right: 15px; border-radius: 4px; font-weight: bold; cursor: pointer;">אני מסכים</button>
+</div>
+
+    <script>
+        // קוד שבודק אם הגולש כבר אישר בעבר את המדיניות
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!localStorage.getItem("cookiesAccepted")) {
+                // אם הגולש חדש ולא אישר - נציג לו את הבאנר
+                document.getElementById("cookie-banner").style.display = "block";
+            }
+        });
+
+        // קוד שמסמן שהגולש לחץ על כפתור האישור ומעלים את הבאנר לנצח
+        document.getElementById("accept-cookies").addEventListener("click", function() {
+            localStorage.setItem("cookiesAccepted", "true");
+            document.getElementById("cookie-banner").style.display = "none";
+        });
+    </script>
+
+</body>
+</html>
