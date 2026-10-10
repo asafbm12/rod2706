@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,url_for,request
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -17,21 +17,10 @@ def guide():
 def updates():
     return render_template('updates.html')
 
-@app.route('/about', methods=['POST'])
-def save_bug():
-    # 1. קליטת הנתונים שהמשתמש רשם בטופס ה-HTML שלך
-    user_name = request.form.get('name')
-    user_email = request.form.get('email')
-    user_message = request.form.get('message')
-
-    # 2. כתיבה ושמירה בתוך קובץ ה-TXT בשורה חדשה
-    with open('bugs.txt', mode='a', encoding='utf-8') as file:
-        file.write(f"שם: {user_name} | מייל: {user_email} | הודעה: {user_message}\n")
-
-    # 3. הפינאלה - הפקודה הזו מחליפה את תג ה-A!
-    # היא לוקחת את הדפדפן בחזרה לעמוד הבית ומאלצת אותו לבצע רינדור מחדש מלא.
+# 4. ניווט לעמוד אודות וצור קשר
+@app.route('/about')
+def about():
     return render_template('about.html')
-
 
 # 5. ניווט לעמוד מדיניות הפרטיות
 @app.route('/privacy')
