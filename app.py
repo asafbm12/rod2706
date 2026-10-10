@@ -24,16 +24,16 @@ def updates():
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     if request.method == 'POST':
-        # 1. פקודה לפייתון לקרוא את מה שהמשתמש רשם בטופס
+        # קריאת הנתונים מהטופס
         user_name = request.form.get('name')
         user_email = request.form.get('email')
         user_message = request.form.get('message')
 
-        # 2. פקודה לפייתון לפתוח את bugs.txt ולרשום בפנים את השם, המייל וההודעה!
+        # הנה פקודת הרישום האמיתית לתוך הקובץ bugs.txt:
         with open('bugs.txt', mode='a', encoding='utf-8') as file:
             file.write(f"שם: {user_name} | מייל: {user_email} | הודעה: {user_message}\n")
 
-        # 3. פקודה לרענן ולרנדר מחדש את העמוד כשהוא נקי
+        # רענון ורינדור מחדש של הדף
         return redirect(url_for('about'))
 
     return render_template('about.html')
