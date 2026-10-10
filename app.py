@@ -17,10 +17,6 @@ def guide():
 def updates():
     return render_template('updates.html')
 
-# 4. ניווט לעמוד אודות וצור קשר
-from flask import redirect, url_for, request  # ודא שהם מיובאים למעלה
-
-
 @app.route('/about', methods=['POST'])
 def save_bug():
     # 1. קליטת הנתונים שהמשתמש רשם בטופס ה-HTML שלך
