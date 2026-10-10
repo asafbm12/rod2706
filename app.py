@@ -24,19 +24,16 @@ def updates():
 @app.route('/about', methods=['GET', 'POST'])
 def about():
     if request.method == 'POST':
-        # לקיחת הנתונים מה-HTML לפי ה-name של השדות
+        # 1. פקודה לפייתון לקרוא את מה שהמשתמש רשם בטופס
         user_name = request.form.get('name')
         user_email = request.form.get('email')
         user_message = request.form.get('message')
 
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        bug_line = f"[{current_time}] שם: {user_name} | מייל: {user_email} | הודעה: {user_message}\n"
+        # 2. פקודה לפייתון לפתוח את bugs.txt ולרשום בפנים את השם, המייל וההודעה!
+        with open('bugs.txt', mode='a', encoding='utf-8') as file:
+            file.write(f"שם: {user_name} | מייל: {user_email} | הודעה: {user_message}\n")
 
-        # פותח את קובץ ה-bugs.txt הקיים שלך וכותב לסוף שלו
-        with open(BUGS_FILE, mode='a', encoding='utf-8') as file:
-            file.write(bug_line)
-
-        # מרנדר מחדש את עמוד האודות כשהוא נקי וריק
+        # 3. פקודה לרענן ולרנדר מחדש את העמוד כשהוא נקי
         return redirect(url_for('about'))
 
     return render_template('about.html')
