@@ -11,26 +11,10 @@
         .container { max-width: 800px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
         button { background-color: #333; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
-
-        /* עיצוב חלונית ההתראה הקופצת */
-        .toast-notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #28a745;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 5px;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10000;
-            transition: opacity 0.5s ease, top 0.5s ease;
-            opacity: 0; /* מתחיל שקוף ומחוסם */
-            display: none;
-        }
     </style>
 </head>
+<body>
+
 <body>
 
     <nav>
@@ -40,65 +24,29 @@
         <a href="/about">אודות וצור קשר</a>
     </nav>
 
-    <!-- אלמנט ההתראה שמחכה מראש מוסתר בדף -->
-    <div id="toast" class="toast-notification">הפנייה התקבלה בהצלחה!</div>
-
     <div class="container">
         <h1>אודות פיתוח המשחק</h1>
-        <p>שלום! אני מפתח משחקים עצמאי. את האתר והמשחק הזה הקמתי מתוך תשוקה ליצירת חוויות אינטראקטיביות קלילות ומהנות ברשת.</p>
+        <p>שלום! אני מפתח משחקים עצמאי. את האתר והמשחק הזה הקמתי מתוך תשוקה ליצירת חוויות אינטראקטיביות קלילות ומהנות ברשת. כל שלב, עיצוב ושורת קוד נכתבו במטרה לספק לכם את חוויית המשחק הטובה ביותר בדפדפן.</p>
 
         <h2>צור קשר / דיווח על באגים</h2>
-        <p>נתקלתם בבעיה במשחק? יש לכם הצעה לשיפור? שלחו הודעה בטופס הבא:</p>
+        <p>נתקלתם בבעיה במשחק? יש לכם הצעה לשיפור או רעיון לפיצ'ר חדש? אשמח מאוד לשמוע מכם! שלחו לי הודעה באמצעות הטופס הבא:</p>
 
-        <!-- נתנו לטופס מזהה (ID) כדי שנוכל לשלוט בו דרך ה-JS -->
-        <form id="bugForm">
+<!-- שינינו את ה-action שיפנה ישירות לפייתון -->
+        <form action="/about" method="POST">
             <label>שם מלא:</label>
             <input type="text" name="name" required>
+
             <label>אימייל לחזרה:</label>
             <input type="email" name="email" required>
-            <label>ההודעה שלכם (תיאור הבאג):</label>
+
+            <label>ההודעה שלכם:</label>
             <textarea name="message" rows="5" required></textarea>
+
+            <!-- כפתור מסוג submit שישלח את המידע ויפעיל את הרינדור מחדש של פייתון -->
             <button type="submit">שלח הודעה</button>
         </form>
+
     </div>
-
-    <script>
-        document.getElementById('bugForm').addEventListener('submit', function(event) {
-            // עוצר את הדפדפן מלרענן את העמוד או לעבור דף
-            event.preventDefault();
-
-            // אוסף את הנתונים מהטופס
-            var formData = new FormData(this);
-
-            # שליחת הנתונים לפייתון מאחורי הקלעים
-            fetch('/about', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    // 1. איפוס וניקוי שדות הטופס
-                    document.getElementById('bugForm').reset();
-
-                    // 2. הצגת ההתראה בצורה חלקה
-                    var toast = document.getElementById('toast');
-                    toast.style.display = 'block';
-                    setTimeout(() => { toast.style.opacity = '1'; }, 10);
-
-                    // 3. העלמת ההתראה אחרי 2 שניות (2000 מילישניות)
-                    setTimeout(function() {
-                        toast.style.opacity = '0';
-                        setTimeout(() => { toast.style.display = 'none'; }, 500);
-                    }, 2000);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('אופס! שמירה נכשלה. נסה שנית מאוחר יותר.');
-            });
-        });
-    </script>
 
 </body>
 </html>

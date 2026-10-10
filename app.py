@@ -18,23 +18,23 @@ def updates():
     return render_template('updates.html')
 
 # 4. ניווט לעמוד אודות וצור קשר
-@app.route('/about', methods=['GET', 'POST'])
-def about():
-    if request.method == 'POST':
-        user_name = request.form.get('name')
-        user_email = request.form.get('email')
-        user_message = request.form.get('message')
+from flask import redirect, url_for, request  # ודא שהם מיובאים למעלה
 
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        bug_line = f"[{current_time}] שם: {user_name} | מייל: {user_email} | באג: {user_message}\n"
 
-        with open(BUGS_FILE, mode='a', encoding='utf-8') as file:
-            file.write(bug_line)
+@app.route('/about', methods=['POST'])
+def save_bug():
+    # 1. קליטת הנתונים שהמשתמש רשם בטופס ה-HTML שלך
+    user_name = request.form.get('name')
+    user_email = request.form.get('email')
+    user_message = request.form.get('message')
 
-        # מחזיר תשובת אימות מהירה לדפדפן (סטטוס הצלחה) במקום לרענן את העמוד
-        return jsonify({"status": "success", "message": "הפנייה התקבלה בהצלחה"})
+    # 2. כתיבה ושמירה בתוך קובץ ה-TXT בשורה חדשה
+    with open('bugs.txt', mode='a', encoding='utf-8') as file:
+        file.write(f"שם: {user_name} | מייל: {user_email} | הודעה: {user_message}\n")
 
-    return render_template('about.html')
+    # 3. הפינאלה - הפקודה הזו מחליפה את תג ה-A!
+    # היא לוקחת את הדפדפן בחזרה לעמוד הבית ומאלצת אותו לבצע רינדור מחדש מלא.
+    return redirect(url_for('home'))
 
 
 # 5. ניווט לעמוד מדיניות הפרטיות
