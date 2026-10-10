@@ -29,8 +29,8 @@
         <h2>צור קשר / דיווח על באגים</h2>
         <p>נתקלתם בבעיה במשחק? יש לכם הצעה לשיפור או רעיון לפיצ'ר חדש? אשמח מאוד לשמוע מכם! שלחו לי הודעה באמצעות הטופס הבא:</p>
 
-        <!-- הטופס מכוון לנתיב /about ובשיטת POST -->
-        <form id="silentForm" action="/about" method="POST">
+        <!-- הטופס שולח את המידע ישירות לנתיב הפייתון /about -->
+        <form action="/about" method="POST">
             <label>שם מלא:</label>
             <input type="text" name="name" required>
 
@@ -43,27 +43,6 @@
             <button type="submit">שלח הודעה</button>
         </form>
     </div>
-
-    <!-- סקריפט JavaScript שמבצע את השליחה השקטה ללא ריענון עמוד -->
-    <script>
-        document.getElementById('silentForm').addEventListener('submit', function(event) {
-            // עוצר את הדפדפן מלבצע רענון לעמוד או לעבור דף
-            event.preventDefault();
-
-            // אוסף את הנתונים שהמשתמש רשם בשדות
-            var formData = new FormData(this);
-
-            # שולח את הנתונים ישירות לפייתון מאחורי הקלעים
-            fetch('/about', {
-                method: 'POST',
-                body: formData
-            });
-
-            // מנקה את שדות הטופס כדי שהמשתמש יראה שהשליחה הסתיימה
-            document.getElementById('silentForm').reset();
-            alert('ההודעה נשלחה בהצלחה בתוך קובץ הטקסט!');
-        });
-    </script>
 
 </body>
 </html>
