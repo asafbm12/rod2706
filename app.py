@@ -1,79 +1,67 @@
 
 from pathlib import Path
-from flask import Flask, render_template, request, send_from_directory, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
-# שמירת bugs.txt באותה תיקייה שבה נמצא app.py
-BUGS_FILE = Path(app.root_path) / 'bugs.txt'
+BUGS_FILE = Path(__file__).resolve().parent / "bugs.txt"
 
 
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/guide')
+@app.route("/guide")
 def guide():
-    return render_template('guide.html')
+    return render_template("guide.html")
 
 
-@app.route('/updates')
+@app.route("/updates")
 def updates():
-    return render_template('updates.html')
+    return render_template("updates.html")
 
 
-@app.route('/about', methods=['GET', 'POST'])
+@app.route("/about", methods=["GET", "POST"])
 def about():
-    if request.method == 'POST':
-        print("התקבלה בקשת POST!")
+    if request.method == "POST":
+        print("קיבלתי טופס!")
 
-        # קבלת הנתונים מהטופס
-        user_name = request.form.get('name', '').strip()
-        user_email = request.form.get('email', '').strip()
-        user_message = request.form.get('message', '').strip()
+        print("כל הנתונים:", request.form)
 
-        print("שם:", repr(user_name))
-        print("אימייל:", repr(user_email))
-        print("הודעה:", repr(user_message))
-
-        # בדיקה שכל השדות מלאים
-        if not user_name or not user_email or not user_message:
-            print("שגיאה: אחד או יותר מהשדות ריקים")
-            return "נא למלא את כל השדות בטופס", 400
+        name = request.form.get("name", "").strip()
+        email = request.form.get("email", "").strip()
+        message = request.form.get("message", "").strip()
 
         try:
-            # כתיבת הנתונים לקובץ
-            with open(BUGS_FILE, 'a', encoding='utf-8') as file:
+            with open(bugs.txt, "a", encoding="utf-8") as file:
                 file.write(
-                    f"שם: {user_name} | "
-                    f"מייל: {user_email} | "
-                    f"הודעה: {user_message}\n"
+                    f"שם: {name} | מייל: {email} | הודעה: {message}\n"
                 )
+                file.flush()
 
-            print("ההודעה נשמרה בהצלחה!")
-            print("מיקום הקובץ:", BUGS_FILE.resolve())
+            print("נשמר בהצלחה!")
+            print("הנתיב לקובץ:", bugs.txt)
+            print("גודל הקובץ:", bugs.txt.stat().st_size)
 
-        except OSError as error:
-            print("שגיאה בשמירת הקובץ:", error)
-            return "אירעה שגיאה בשמירת ההודעה", 500
+        except Exception as error:
+            print("שגיאה בכתיבה:", repr(error))
+            return "שגיאה בשמירת ההודעה. בדוק את ה-Terminal.", 500
 
-        # חזרה לעמוד אודות לאחר השליחה
-        return redirect(url_for('about'))
+        return redirect(url_for("about"))
 
-    return render_template('about.html')
+    return render_template("about.html")
 
 
-@app.route('/privacy')
+@app.route("/privacy")
 def privacy():
-    return render_template('privacy.html')
+    return render_template("privacy.html")
 
 
-@app.route('/ads.txt')
+@app.route("/ads.txt")
 def ads_txt():
-    return send_from_directory(app.root_path, 'ads.txt')
+    return app.send_static_file("ads.txt")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
-
